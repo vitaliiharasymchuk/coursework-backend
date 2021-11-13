@@ -9,6 +9,7 @@ import coursesRoute from './routes/courses.js'
 const app = express();
 dotenv.config();
 
+
 app.use(express.json({ limit: '30mb', extended: true }));
 app.use(express.urlencoded({ limit: '30mb', extended: true }));
 app.use(cors());
