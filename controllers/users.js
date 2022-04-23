@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 import User from '../models/user.js';
+import Activity from '../models/activity.js'
 
 export const signin = async (req, res) => {
     const { email, password } = req.body;
@@ -17,9 +18,10 @@ export const signin = async (req, res) => {
 
         const token = jwt.sign({ email: existingUser.email, id: existingUser._id }, 'test', { expiresIn: "1h" });
 
+        const newActivity = await Activity.create({ name: "Вхід користувача", description: `Ім'я користувача : ${existingUser.name} Email : ${existingUser.email} Роль : ${existingUser.role} Дата входу : ${new Date().toLocaleString()}` });
+
         return res.status(200).json({ result: existingUser, token });
     } catch (error) {
-        console.log(error);
         return res.status(500).json({ message: "Something went wrong." });
     }
 }
@@ -38,10 +40,11 @@ export const signup = async (req, res) => {
 
         const token = jwt.sign({ email: result.email, id: result._id }, 'test', { expiresIn: "1h" });
 
+        const newActivity = await Activity.create({ name: "Реєстрація користувача", description: `Ім'я користувача : ${firstName} ${lastName} Email : ${email} Роль : ${role} Дата реєстрації : ${new Date().toLocaleString()}` });
+
         return res.status(200).json({ result, token });
 
     } catch (error) {
-        console.log(error);
         return res.status(500).json({ message: "Something went wrong" });
     }
 }

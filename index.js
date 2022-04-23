@@ -19,11 +19,9 @@ app.use('/admin', adminRoute);
 app.use('/courses', coursesRoute);
 
 
-
 app.get('/', (req, res) => {
     res.send('Курсова');
 });
-
 
 const PORT = 5000;
 
